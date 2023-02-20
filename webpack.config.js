@@ -1,6 +1,7 @@
 const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack'); // webpack 본체를 읽어들임 새롭게 추가된 부분
 
 module.exports = {
   watch: false,
@@ -41,5 +42,17 @@ module.exports = {
       title: 'Plugin generate page',
       template: 'src/root.html'
     }),
-  ]
+    new webpack.HotModuleReplacementPlugin({
+    }),
+  ],
+  optimization: {
+    moduleIds: 'named'
+  },
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'public'),
+    },
+    compress: true,
+    port: 9000,
+  },
 };
